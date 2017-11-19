@@ -15,10 +15,10 @@ function decodeSourceMap(map) {
   return ret;
 }
 
-exports.transform = function (options) {
-  if (/\.tsx?$/.test(options.filename)) {
-    const out = ts.transpileModule(options.src, Object.assign({
-      fileName: options.filename,
+exports.transform = function (_ref) {
+  if (/\.tsx?$/.test(_ref.filename)) {
+    const out = ts.transpileModule(_ref.src, Object.assign({
+      fileName: _ref.filename,
     }, require('../tsconfig.json')));
 
     //var smc = new SourceMapConsumer();
@@ -26,9 +26,9 @@ exports.transform = function (options) {
 
     return {
       code: out.outputText,
-      filename: options.filename,
-      map: options.generateSourceMaps ? map : decodeSourceMap(map),
+      filename: _ref.filename,
+      map: _ref.options.generateSourceMaps ? map : decodeSourceMap(map),
     };
   }
-  return origin(options);
+  return origin(_ref);
 };
